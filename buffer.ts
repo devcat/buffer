@@ -34,6 +34,20 @@ export default class Buffer {
     }
   }
 
+  static concat(...arrays: ArrayLike<number>[]) {
+    const array = new Uint8Array(
+      arrays.reduce((length, array) => length + array.length, 0)
+    );
+
+    let offset = 0;
+    for (const x of arrays) {
+      array.set(x, offset);
+      offset += x.length;
+    }
+
+    return new Buffer(array.buffer);
+  }
+
   fits(length: number) {
     return this.length >= length + this.offset;
   }

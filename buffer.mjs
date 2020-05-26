@@ -1,6 +1,6 @@
 const utf8encoder = new TextEncoder();
 
-class Buffer {
+export default class Buffer {
   le = true;
   offset = 0;
   needle = 0;
@@ -23,6 +23,20 @@ class Buffer {
       default:
         return new Buffer(data);
     }
+  }
+
+  static concat(...arrays) {
+    const array = new Uint8Array(
+      arrays.reduce((length, array) => length + array.length, 0)
+    );
+
+    let offset = 0;
+    for (const x of arrays) {
+      array.set(x, offset);
+      offset += x.length;
+    }
+
+    return new Buffer(array.buffer);
   }
 
   fits(length) {
