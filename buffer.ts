@@ -8,7 +8,8 @@ export default class Buffer {
   view: DataView;
   buffer: ArrayBuffer;
 
-  constructor(data: number | ArrayBufferLike | Iterable<number> | ArrayLike<number>,
+  constructor(
+    data: number | ArrayBufferLike | Iterable<number> | ArrayLike<number>,
     {
       le = true,
       offset = 0,
@@ -57,7 +58,7 @@ export default class Buffer {
   }
 
   slice(start: number, end: number | undefined = this.needle) {
-    return new Uint8Array(this.buffer.slice(start, end));
+    return new Uint8Array(this.buffer).subarray(start, end);
   }
 
   malloc(length: number) {
@@ -71,7 +72,7 @@ export default class Buffer {
   }
 
   get(length: number) {
-    return new Uint8Array(this.slice(this.offset, (this.offset += length)));
+    return this.slice(this.offset, (this.offset += length));
   }
 
   getFloat32() {
@@ -182,4 +183,3 @@ export default class Buffer {
     if (this.needle < (this.offset += 8)) this.needle = this.offset;
   }
 }
-

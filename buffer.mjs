@@ -48,7 +48,7 @@ export default class Buffer {
   }
 
   slice(start, end = this.needle) {
-    return new Uint8Array(this.buffer.slice(start, end));
+    return new Uint8Array(this.buffer).subarray(start, end);
   }
 
   malloc(length) {
@@ -62,7 +62,7 @@ export default class Buffer {
   }
 
   get(length) {
-    return new Uint8Array(this.slice(this.offset, (this.offset += length)));
+    return this.slice(this.offset, (this.offset += length));
   }
 
   getFloat32() {
